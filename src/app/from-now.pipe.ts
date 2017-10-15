@@ -1,6 +1,8 @@
 import * as moment from 'moment';
 import 'moment/locale/es';
 
+import {Pipe, PipeTransform} from '@angular/core';
+
 /*=========================================================================|
 | Blue Path                                                                |
 |==========================================================================|
@@ -11,5 +13,12 @@ import 'moment/locale/es';
 | correspondiente, solo tienes que usarla donde proceda. Haciendo          |
 | 'moment(fecha).fromNow()' obtenemos justo lo que necesitamos.            |
 |=========================================================================*/
+@Pipe({
+  name:'FromNow'
+})
 
-export class FromNowPipe { }
+export class FromNowPipe implements PipeTransform {
+  transform(fecha: string): string{
+    return moment(fecha).fromNow();
+  }
+}

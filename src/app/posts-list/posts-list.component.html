@@ -16,5 +16,7 @@
 <app-post-preview
   *ngFor="let post of posts"
   [post]="post"
-  (articuloPinchado)='verPost($event)'>
+  (articuloPinchado)='verPost($event)'
+  (authorPinchado)='verAuthor($event)'>
 </app-post-preview>
+

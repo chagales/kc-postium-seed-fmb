@@ -24,6 +24,11 @@ export class PostsListComponent {
   | parámetro el identificador del autor.                                    |
   |=========================================================================*/
 
+  verAuthor(id: number):void{
+    console.log("Diosaurio molon", id);
+    this._router.navigate(['posts/users',id]);
+  }
+
   /*=========================================================================|
   | Green Path                                                               |
   |==========================================================================|

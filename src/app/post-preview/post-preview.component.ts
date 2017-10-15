@@ -32,10 +32,16 @@ export class PostPreviewComponent {
   |=========================================================================*/
 
   @Output() articuloPinchado = new EventEmitter<Post>();
+  @Output() authorPinchado = new EventEmitter<number>();
 
 
   notificarArticuloPinchado (post:Post):void{
     this.articuloPinchado.emit(post);
+  }
+
+  notificarAutorPinchado (id:number):void{
+    console.log('Emito Author ', id)
+    this.authorPinchado.emit(id);
   }
 
   plainTextToHtml(text: string): string {

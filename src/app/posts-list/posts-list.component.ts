@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { Post } from '../post';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts-list',
@@ -8,6 +9,8 @@ import { Post } from '../post';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostsListComponent {
+
+  constructor(private _router:Router){}
 
   @Input() posts: Post[];
 
@@ -31,4 +34,7 @@ export class PostsListComponent {
   | identificador del post.                                                  |
   |=========================================================================*/
 
+  verPost(post:Post):void{
+    this._router.navigate(['posts',post.id]);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Post } from '../post';
 
@@ -30,6 +30,13 @@ export class PostPreviewComponent {
   | dicho clic se realiza en el template de este componente, necesitas,      |
   | además, un manejador para el mismo.                                      |
   |=========================================================================*/
+
+  @Output() articuloPinchado = new EventEmitter<Post>();
+
+
+  notificarArticuloPinchado (post:Post):void{
+    this.articuloPinchado.emit(post);
+  }
 
   plainTextToHtml(text: string): string {
     return text ? `<p>${text.replace(/\n/gi, '</p><p>')}</p>` : '';

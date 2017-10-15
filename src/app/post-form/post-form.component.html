@@ -3,7 +3,7 @@
 |==========================================================================|
 | Enlaza el submit del formulario con la función 'emitPostSubmitted()'.    |
 |========================================================================-->
-<form [formGroup]="postForm" novalidate>
+<form [formGroup]="postForm" (ngSubmit)="emitPostSubmitted()" novalidate>
 
   <!--=======================================================================|
   | Purple Path                                                              |
@@ -13,6 +13,7 @@
   <input
     type="text"
     placeholder="Título"
+    formControlName="title"
     class="u-full-width">
 
   <!--=======================================================================|
@@ -22,6 +23,7 @@
   |========================================================================-->
   <textarea
     placeholder="Introduce tu historia"
+    formControlName="intro"
     class="u-full-width georgia-font"
     autogrow></textarea>
 
@@ -32,6 +34,7 @@
   |========================================================================-->
   <textarea
     placeholder="Cuenta tu historia"
+    formControlName="body"
     class="u-full-width georgia-font"
     autogrow></textarea>
 
@@ -42,6 +45,7 @@
   |========================================================================-->
   <button
     type="submit"
-    class="button-primary u-pull-right">Publicar</button>
+    class="button-primary u-pull-right"
+    [disabled]="postForm.invalid">Publicar</button>
 
 </form>

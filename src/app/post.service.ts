@@ -75,6 +75,14 @@ export class PostService {
      return this._http.get<Post[]>(`${environment.backendUri}/posts`,parametros);
   }
 
+  vemosCategoria(post: Post, categoriaId:number): Boolean{
+    post.categories.forEach((element) => {
+      if(element.id === categoriaId)
+        return true;
+    });
+    return false;
+  }
+
   getCategoryPosts(id: number): Observable<Post[]> {
 
     /*=========================================================================|
@@ -104,8 +112,17 @@ export class PostService {
     |                                                                          |
     | Una pista más, por si acaso: HttpParams.                                 |
     |=========================================================================*/
+    let parametros = {
+      params: new HttpParams()
+              .set('_sort', 'publicationDate')
+              .set('_order','desc')
+              .set('publicationDate_lte', Date.now().toString())
+    };
 
-     return this._http.get<Post[]>(`${environment.backendUri}/posts`);
+     return this._http.get<Post[]>(`${environment.backendUri}/posts`,parametros)
+     .map(post => {
+       return  post.filter(post => this.vemosCategoria(post,id))
+     });
   }
 
   getPostDetails(id: number): Observable<Post> {

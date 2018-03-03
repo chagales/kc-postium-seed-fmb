@@ -9,6 +9,7 @@ import { PostService } from './post.service';
 @Injectable()
 export class PostsResolveService implements Resolve<Post[]> {
 
+
   constructor(private _postService: PostService) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Post[]> {
@@ -35,11 +36,14 @@ export class PostsResolveService implements Resolve<Post[]> {
     | ver qué encuentras.                                                      |
     |=========================================================================*/
 
-    if (route.params.categories){
-      return this._postService.getCategoryPosts(route.params.categories);
+    if (route.params.categoryId){
+      return this._postService.getCategoryPosts(route.params.categoryId);
     }
 
     return this._postService.getPosts();
   }
 
 }
+
+
+

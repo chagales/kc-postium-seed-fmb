@@ -7,10 +7,18 @@ import 'rxjs/add/operator/map';
 import { environment } from '../environments/environment';
 import { Post } from './post';
 
+import {Category} from './category';
+
 @Injectable()
 export class PostService {
 
   constructor(private _http: HttpClient) { }
+
+  private getDefaultParams() {
+    return new HttpParams().set('_sort', 'publicationDate')
+                           .set('_order', 'DESC')
+                           .set('publicationDate_lte', Date.now().toString());
+  }
 
   getPosts(): Observable<Post[]> {
 
@@ -75,14 +83,6 @@ export class PostService {
      return this._http.get<Post[]>(`${environment.backendUri}/posts`,parametros);
   }
 
-  vemosCategoria(post: Post, categoriaId:number): Boolean{
-    post.categories.forEach((element) => {
-      if(element.id === categoriaId)
-        return true;
-    });
-    return false;
-  }
-
   getCategoryPosts(id: number): Observable<Post[]> {
 
     /*=========================================================================|
@@ -112,17 +112,19 @@ export class PostService {
     |                                                                          |
     | Una pista más, por si acaso: HttpParams.                                 |
     |=========================================================================*/
-    let parametros = {
+    const options = {
       params: new HttpParams()
-              .set('_sort', 'publicationDate')
-              .set('_order','desc')
-              .set('publicationDate_lte', Date.now().toString())
+        .set('_sort', 'publicationDate')
+        .set('_order', 'desc')
+        .set('publicationDate_lte', Date.now().toString())
     };
 
-     return this._http.get<Post[]>(`${environment.backendUri}/posts`,parametros)
-     .map(post => {
-       return  post.filter(post => this.vemosCategoria(post,id))
-     });
+    return this._http
+      .get<Post[]>(`${environment.backendUri}/posts`, options)
+      .map(posts => {
+        return posts.filter(post =>
+          post.categories.some((category) => category.id == id));
+      });
   }
 
   getPostDetails(id: number): Observable<Post> {
